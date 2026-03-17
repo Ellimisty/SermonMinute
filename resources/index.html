@@ -13,41 +13,58 @@
     <div id="neutralinoapp">
         <header>
             <h1>3 Minute Sermon</h1>
-            <div id="timer-container">
-                <div id="timer">03:00</div>
-                <div id="progress-bar-bg">
-                    <div id="progress-bar"></div>
+                <div id="mode-tabs">
+                    <button class="tab-btn active" data-mode="classic">Classic (3:00)</button>
+                    <button class="tab-btn" data-mode="challenge">Challenge (5:30)</button>
                 </div>
-            </div>
-        </header>
 
-        <div class="app-layout">
-            <div class="main-column">
-                <main>
-                    <div id="card-deck-container">
-                        <div id="card-deck">
-                            <!-- Cards will be injected here -->
-                            <div id="active-card" class="card-container">
-                                <div class="card" id="main-card">
-                                    <div class="card-face card-front">
-                                        <span class="topic-label" id="card-topic-front">Topic</span>
-                                        <p class="verse-text" id="card-verse">Pull a card to begin your sermon.</p>
-                                        <p class="verse-reference" id="card-reference"></p>
-                                        <div class="card-hint">Click to flip</div>
+                <div id="phase-label">PREP PHASE</div>
+
+                <div id="timer-container">
+                    <div id="timer">03:00</div>
+                    <div id="progress-bar-bg">
+                        <div id="progress-bar"></div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="app-layout">
+                <div class="main-column">
+                    <main>
+                        <div id="card-deck-container">
+                            <div id="card-deck">
+                                <div id="active-card-1" class="card-container">
+                                    <div class="card" id="main-card-1">
+                                        <div class="card-face card-front">
+                                            <span class="topic-label" id="card-topic-front-1">Topic</span>
+                                            <p class="verse-text" id="card-verse-1">Pull a card to begin your sermon.</p>
+                                            <p class="verse-reference" id="card-reference-1"></p>
+                                            <div class="card-hint">Click to flip</div>
+                                        </div>
+                                        <div class="card-face card-back">
+                                            <h3>Sermon Prompts</h3>
+                                            <ul id="card-prompts-1"></ul>
+                                            <div class="card-hint">Click to flip back</div>
+                                        </div>
                                     </div>
-                                    <div class="card-face card-back">
-                                        <h3>Sermon Prompts</h3>
-                                        <ul id="card-prompts">
-                                            <li>Prompt 1</li>
-                                            <li>Prompt 2</li>
-                                            <li>Prompt 3</li>
-                                        </ul>
-                                        <div class="card-hint">Click to flip back</div>
+                                </div>
+                                <div id="active-card-2" class="card-container hidden">
+                                    <div class="card" id="main-card-2">
+                                        <div class="card-face card-front">
+                                            <span class="topic-label" id="card-topic-front-2">Topic</span>
+                                            <p class="verse-text" id="card-verse-2"></p>
+                                            <p class="verse-reference" id="card-reference-2"></p>
+                                            <div class="card-hint">Click to flip</div>
+                                        </div>
+                                        <div class="card-face card-back">
+                                            <h3>Sermon Prompts</h3>
+                                            <ul id="card-prompts-2"></ul>
+                                            <div class="card-hint">Click to flip back</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
                     <div id="controls">
                         <button id="draw-btn" class="primary-btn">Draw Card</button>
@@ -61,8 +78,10 @@
                 <section id="notes-section">
                     <h2>Sermon Notes</h2>
                     <form action="https://formspree.io/f/xnjgojjr" method="POST" id="notes-form">
-                        <input type="hidden" name="verse" id="hidden-verse">
-                        <input type="hidden" name="reference" id="hidden-reference">
+                        <input type="hidden" name="verse_1" id="hidden-verse-1">
+                        <input type="hidden" name="reference_1" id="hidden-reference-1">
+                        <input type="hidden" name="verse_2" id="hidden-verse-2">
+                        <input type="hidden" name="reference_2" id="hidden-reference-2">
                         <input type="email" name="email" id="submitter-email" placeholder="Your email (to receive a copy)" required>
                         <textarea name="notes" id="notes-area" placeholder="Type your sermon notes here..."></textarea>
                         <div id="form-status"></div>

@@ -3,8 +3,11 @@ let allCards = [];
 let deck = [];
 let currentCard = null;
 let timerInterval = null;
-let timeLeft = 180; // 3 minutes in seconds
+let timeLeft = 180;
 let isTimerRunning = false;
+let gameMode = 'classic'; // 'classic' or 'challenge'
+let currentPhase = 'prep'; // 'prep' or 'preach'
+let drawnCards = [];
 
 async function loadCards() {
     try {
@@ -20,9 +23,22 @@ function resetDeck() {
     deck = [...allCards];
     shuffleDeck(deck);
     updateDeckCount();
-    document.getElementById('card-verse').textContent = "Pull a card to begin your sermon.";
-    document.getElementById('card-reference').textContent = "";
-    document.getElementById('card-topic-front').textContent = "Topic";
+    
+    // Reset Card 1
+    document.getElementById('card-verse-1').textContent = "Pull a card to begin your sermon.";
+    document.getElementById('card-reference-1').textContent = "";
+    document.getElementById('card-topic-front-1').textContent = "Topic";
+    document.getElementById('card-prompts-1').innerHTML = "";
+    document.getElementById('main-card-1').classList.remove('flipped');
+
+    // Reset Card 2
+    document.getElementById('card-verse-2').textContent = "";
+    document.getElementById('card-reference-2').textContent = "";
+    document.getElementById('card-topic-front-2').textContent = "Topic";
+    document.getElementById('card-prompts-2').innerHTML = "";
+    document.getElementById('main-card-2').classList.remove('flipped');
+    
+    drawnCards = [];
     resetTimer();
 }
 
@@ -38,44 +54,70 @@ function updateDeckCount() {
 }
 
 function drawCard() {
-    if (deck.length === 0) {
-        alert("Deck is empty! Resetting...");
+    const minNeeded = gameMode === 'classic' ? 1 : 2;
+    if (deck.length < minNeeded) {
+        alert("Not enough cards left! Resetting...");
         resetDeck();
         return;
     }
 
-    // Reset flip state if needed
-    const cardEl = document.getElementById('main-card');
-    cardEl.classList.remove('flipped');
+    // Reset flip states
+    document.getElementById('main-card-1').classList.remove('flipped');
+    document.getElementById('main-card-2').classList.remove('flipped');
 
-    currentCard = deck.pop();
+    drawnCards = [];
+    drawnCards.push(deck.pop());
+    if (gameMode === 'challenge') {
+        drawnCards.push(deck.pop());
+    }
+
     updateDeckCount();
 
-    // Small delay to allow flip animation to reset before changing content
+    // Small delay to allow flip animation to reset
     setTimeout(() => {
-        document.getElementById('card-verse').textContent = `"${currentCard.verse}"`;
-        document.getElementById('card-reference').textContent = currentCard.reference;
-        document.getElementById('card-topic-front').textContent = currentCard.topic;
-
-        // Populate hidden fields for form submission
-        document.getElementById('hidden-verse').value = currentCard.verse;
-        document.getElementById('hidden-reference').value = currentCard.reference;
-
-        const promptsList = document.getElementById('card-prompts');
-        promptsList.innerHTML = '';
-        currentCard.prompts.forEach(p => {
+        // Populate Card 1
+        const c1 = drawnCards[0];
+        document.getElementById('card-verse-1').textContent = `"${c1.verse}"`;
+        document.getElementById('card-reference-1').textContent = c1.reference;
+        document.getElementById('card-topic-front-1').textContent = c1.topic;
+        
+        const L1 = document.getElementById('card-prompts-1');
+        L1.innerHTML = '';
+        c1.prompts.forEach(p => {
             const li = document.createElement('li');
             li.textContent = p;
-            promptsList.appendChild(li);
+            L1.appendChild(li);
         });
+
+        // Set hidden fields
+        document.getElementById('hidden-verse-1').value = c1.verse;
+        document.getElementById('hidden-reference-1').value = c1.reference;
+
+        if (gameMode === 'challenge') {
+            const c2 = drawnCards[1];
+            document.getElementById('card-verse-2').textContent = `"${c2.verse}"`;
+            document.getElementById('card-reference-2').textContent = c2.reference;
+            document.getElementById('card-topic-front-2').textContent = c2.topic;
+            
+            const L2 = document.getElementById('card-prompts-2');
+            L2.innerHTML = '';
+            c2.prompts.forEach(p => {
+                const li = document.createElement('li');
+                li.textContent = p;
+                L2.appendChild(li);
+            });
+
+            document.getElementById('hidden-verse-2').value = c2.verse;
+            document.getElementById('hidden-reference-2').value = c2.reference;
+        }
 
         resetTimer();
     }, 200);
 }
 
-function toggleFlip() {
-    if (!currentCard) return;
-    const cardEl = document.getElementById('main-card');
+function toggleFlip(index) {
+    if (drawnCards.length < index) return;
+    const cardEl = document.getElementById(`main-card-${index}`);
     cardEl.classList.toggle('flipped');
 }
 
@@ -93,12 +135,19 @@ function startTimer() {
         document.getElementById('timer-btn').textContent = "Pause Timer";
         timerInterval = setInterval(() => {
             timeLeft--;
+            
+            // Phase transition logic for Challenge Mode
+            if (gameMode === 'challenge' && currentPhase === 'prep' && timeLeft <= 300) {
+                currentPhase = 'preach';
+                document.getElementById('phase-label').textContent = "PREACH PHASE";
+                // Optional: add a sound here
+            }
+
             updateTimerDisplay();
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 isTimerRunning = false;
                 document.getElementById('timer-btn').textContent = "Time's Up!";
-                // Optional: Play a sound or notification
             }
         }, 1000);
     }
@@ -112,7 +161,16 @@ function pauseTimer() {
 
 function resetTimer() {
     pauseTimer();
-    timeLeft = 180;
+    if (gameMode === 'classic') {
+        timeLeft = 180;
+        document.getElementById('phase-label').classList.remove('visible');
+    } else {
+        timeLeft = 330; // 5:30
+        currentPhase = 'prep';
+        const label = document.getElementById('phase-label');
+        label.textContent = "PREP PHASE";
+        label.classList.add('visible');
+    }
     updateTimerDisplay();
     document.getElementById('timer-btn').textContent = "Start Timer";
 }
@@ -132,15 +190,41 @@ function updateTimerDisplay() {
         timerEl.classList.add('warning');
     }
 
-    const progress = (timeLeft / 180) * 100;
+    const progressTotal = gameMode === 'classic' ? 180 : 330;
+    const progress = (timeLeft / progressTotal) * 100;
     document.getElementById('progress-bar').style.width = `${progress}%`;
 }
 
 // Event Listeners
 document.getElementById('draw-btn').addEventListener('click', drawCard);
-document.getElementById('main-card').addEventListener('click', toggleFlip);
+document.getElementById('main-card-1').addEventListener('click', () => toggleFlip(1));
+document.getElementById('main-card-2').addEventListener('click', () => toggleFlip(2));
 document.getElementById('timer-btn').addEventListener('click', toggleTimer);
 document.getElementById('reset-btn').addEventListener('click', resetDeck);
+
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        if (isTimerRunning) {
+            if (!confirm("A timer is running. Switch modes and reset?")) return;
+        }
+        
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        gameMode = this.dataset.mode;
+        
+        // Update UI for mode
+        const card2 = document.getElementById('active-card-2');
+        if (gameMode === 'challenge') {
+            card2.classList.remove('hidden');
+        } else {
+            card2.classList.add('hidden');
+        }
+        
+        resetDeck();
+    });
+});
 
 function downloadBackup(content, filename) {
     const blob = new Blob([content], { type: 'text/plain' });
@@ -212,19 +296,26 @@ document.getElementById('notes-form').addEventListener('submit', async function(
                 // Trigger Backup Download
                 const date = new Date().toLocaleDateString().replace(/\//g, '-');
                 const filename = `SermonNotes_${date}.txt`;
-                const verse = document.getElementById('hidden-verse').value;
-                const ref = document.getElementById('hidden-reference').value;
+                
+                let verseInfo = "";
+                if (gameMode === 'classic') {
+                    verseInfo = `Verse: ${document.getElementById('hidden-verse-1').value} (${document.getElementById('hidden-reference-1').value})`;
+                } else {
+                    verseInfo = `Verse 1: ${document.getElementById('hidden-verse-1').value} (${document.getElementById('hidden-reference-1').value})\nVerse 2: ${document.getElementById('hidden-verse-2').value} (${document.getElementById('hidden-reference-2').value})`;
+                }
+
                 const email = document.getElementById('submitter-email').value;
-                const backupContent = `Sermon Notes Record\nDate: ${new Date().toLocaleString()}\nFrom: ${email}\n\nVerse: ${verse} (${ref})\n\nNotes:\n${notes}`;
+                const backupContent = `Sermon Notes Record\nDate: ${new Date().toLocaleString()}\nFrom: ${email}\nMode: ${gameMode.charAt(0).toUpperCase() + gameMode.slice(1)}\n\n${verseInfo}\n\nNotes:\n${notes}`;
                 
                 downloadBackup(backupContent, filename);
 
                 this.reset();
-                // Reset hidden fields and email field too (reset() does email, but hidden fields manually)
-                document.getElementById('hidden-verse').value = "";
-                document.getElementById('hidden-reference').value = "";
+                // Reset hidden fields
+                document.getElementById('hidden-verse-1').value = "";
+                document.getElementById('hidden-reference-1').value = "";
+                document.getElementById('hidden-verse-2').value = "";
+                document.getElementById('hidden-reference-2').value = "";
                 
-                // Copy to clipboard as backup too
                 try { await navigator.clipboard.writeText(notes); } catch(e) {}
             } else {
                 const data = await response.json();
