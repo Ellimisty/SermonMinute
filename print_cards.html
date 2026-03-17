@@ -1,0 +1,810 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sermon Cards - Print Layout</title>
+    <style>
+        @page {
+            size: 8.5in 11in;
+            margin: 0;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fff;
+        }
+        .page {
+            width: 8.5in;
+            height: 11in;
+            padding-top: 0.5in;
+            padding-left: 0.75in;
+            padding-right: 0.75in;
+            display: grid;
+            grid-template-columns: 3.5in 3.5in;
+            grid-template-rows: repeat(5, 2in);
+            gap: 0;
+            page-break-after: always;
+            box-sizing: border-box;
+        }
+        .card {
+            width: 3.5in;
+            height: 2in;
+            border: 0.1pt solid #eee; /* Light crop marks */
+            box-sizing: border-box;
+            padding: 0.25in;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+        .card.old::before { background: #d9534f; } /* Red for Old Testament */
+        .card.new::before { background: #337ab7; } /* Blue for New Testament */
+        
+        .verse {
+            font-size: 10pt;
+            line-height: 1.3;
+            margin-bottom: 5pt;
+            font-style: italic;
+            color: #333;
+        }
+        .ref {
+            font-size: 8pt;
+            font-weight: bold;
+            color: #000;
+        }
+        .topic {
+            position: absolute;
+            top: 5pt;
+            right: 10pt;
+            font-size: 6pt;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+        }
+        .testament-label {
+            position: absolute;
+            bottom: 5pt;
+            right: 10pt;
+            font-size: 6pt;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .old .testament-label { color: #d9534f; }
+        .new .testament-label { color: #337ab7; }
+
+        @media print {
+            .no-print { display: none; }
+        }
+        .controls {
+            padding: 20px;
+            background: #f4f4f4;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="controls no-print">
+        <h1>Print Preview</h1>
+        <p>This layout is set for standard Business Card templates (3.5" x 2", 10 per page).</p>
+        <button onclick="window.print()">Print Cards</button>
+    </div>
+    <div class="page">
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"Be strong and take heart, all you who hope in the Lord."</div>
+            <div class="ref">Psalm 31:24</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"But those who hope in the Lord will renew their strength."</div>
+            <div class="ref">Isaiah 40:31</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"In this world you will have trouble. But take heart! I have overcome the world."</div>
+            <div class="ref">John 16:33</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"I can do all this through him who gives me strength."</div>
+            <div class="ref">Philippians 4:13</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future."</div>
+            <div class="ref">Jeremiah 29:11</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand."</div>
+            <div class="ref">Isaiah 41:10</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"The Lord is my strength and my shield; in him my heart trusts, and I am helped."</div>
+            <div class="ref">Psalm 28:7</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"God is our refuge and strength, an ever-present help in trouble."</div>
+            <div class="ref">Psalm 46:1</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"He will never leave you nor forsake you."</div>
+            <div class="ref">Hebrews 13:5</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness."</div>
+            <div class="ref">Lamentations 3:22-23</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        </div><div class="page">
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"This is the day the Lord has made; we will rejoice and be glad in it."</div>
+            <div class="ref">Psalm 118:24</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God."</div>
+            <div class="ref">Philippians 4:6-7</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"Come to Me, all who labor and are heavy laden, and I will give you rest."</div>
+            <div class="ref">Matthew 11:28</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"Casting all your anxieties on him, because he cares for you."</div>
+            <div class="ref">1 Peter 5:7</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"Be still, and know that I am God."</div>
+            <div class="ref">Psalm 46:10</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit."</div>
+            <div class="ref">Romans 15:13</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"The joy of the Lord is your strength."</div>
+            <div class="ref">Nehemiah 8:10</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"In all your ways acknowledge him, and he will make straight your paths."</div>
+            <div class="ref">Proverbs 3:6</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"The Lord is good to all."</div>
+            <div class="ref">Psalm 145:9</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Encouragement and Hope</div>
+            <div class="verse">"For God gave us a spirit not of fear but of power and love and self-control."</div>
+            <div class="ref">2 Timothy 1:7</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        </div><div class="page">
+        <div class="card new">
+            <div class="topic">Faith and Trust</div>
+            <div class="verse">"Now faith is confidence in what we hope for and assurance about what we do not see."</div>
+            <div class="ref">Hebrews 11:1</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Faith and Trust</div>
+            <div class="verse">"Trust in the Lord with all your heart and lean not on your own understanding."</div>
+            <div class="ref">Proverbs 3:5</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Faith and Trust</div>
+            <div class="verse">"If God is for us, who can be against us?"</div>
+            <div class="ref">Romans 8:31</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Faith and Trust</div>
+            <div class="verse">"Without faith it is impossible to please God."</div>
+            <div class="ref">Hebrews 11:6</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Faith and Trust</div>
+            <div class="verse">"For we live by faith, not by sight."</div>
+            <div class="ref">2 Corinthians 5:7</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Faith and Trust</div>
+            <div class="verse">"The Lord is my shepherd; I shall not want."</div>
+            <div class="ref">Psalm 23:1</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Faith and Trust</div>
+            <div class="verse">"Blessed are those who have not seen and yet have believed."</div>
+            <div class="ref">John 20:29</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Faith and Trust</div>
+            <div class="verse">"Indeed, 'everyone who calls on the name of the Lord will be saved.'"</div>
+            <div class="ref">Romans 10:13</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Faith and Trust</div>
+            <div class="verse">"For by grace you have been saved through faith."</div>
+            <div class="ref">Ephesians 2:8</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Faith and Trust</div>
+            <div class="verse">"For nothing will be impossible with God."</div>
+            <div class="ref">Luke 1:37</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        </div><div class="page">
+        <div class="card new">
+            <div class="topic">Love and Relationships</div>
+            <div class="verse">"God is love."</div>
+            <div class="ref">1 John 4:8</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Love and Relationships</div>
+            <div class="verse">"Do everything in love."</div>
+            <div class="ref">1 Corinthians 16:14</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Love and Relationships</div>
+            <div class="verse">"Love your neighbor as yourself."</div>
+            <div class="ref">Mark 12:31</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Love and Relationships</div>
+            <div class="verse">"Beloved, if God so loved us, we also ought to love one another."</div>
+            <div class="ref">1 John 4:11</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Love and Relationships</div>
+            <div class="verse">"Above all, love each other deeply, because love covers over a multitude of sins."</div>
+            <div class="ref">1 Peter 4:8</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Love and Relationships</div>
+            <div class="verse">"A new command I give you: Love one another. As I have loved you, so you must love one another."</div>
+            <div class="ref">John 13:34</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Love and Relationships</div>
+            <div class="verse">"Love the Lord your God with all your heart and with all your soul and with all your mind and with all your strength."</div>
+            <div class="ref">Mark 12:30</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Love and Relationships</div>
+            <div class="verse">"Bear one another's burdens, and so fulfill the law of Christ."</div>
+            <div class="ref">Galatians 6:2</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Love and Relationships</div>
+            <div class="verse">"And now these three remain: faith, hope and love. But the greatest of these is love."</div>
+            <div class="ref">1 Corinthians 13:13</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Love and Relationships</div>
+            <div class="verse">"We love because he first loved us."</div>
+            <div class="ref">1 John 4:19</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        </div><div class="page">
+        <div class="card old">
+            <div class="topic">Guidance and Wisdom</div>
+            <div class="verse">"Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight."</div>
+            <div class="ref">Proverbs 3:5-6</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Guidance and Wisdom</div>
+            <div class="verse">"Your word is a lamp for my feet, a light on my path."</div>
+            <div class="ref">Psalm 119:105</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Guidance and Wisdom</div>
+            <div class="verse">"The fear of the Lord is the beginning of wisdom."</div>
+            <div class="ref">Proverbs 9:10</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Guidance and Wisdom</div>
+            <div class="verse">"Hear counsel and receive instruction, that you may be wise in your latter days."</div>
+            <div class="ref">Proverbs 19:20</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Guidance and Wisdom</div>
+            <div class="verse">"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."</div>
+            <div class="ref">Romans 12:2</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Guidance and Wisdom</div>
+            <div class="verse">"But seek first his kingdom and his righteousness, and all these things will be given to you as well."</div>
+            <div class="ref">Matthew 6:33</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Guidance and Wisdom</div>
+            <div class="verse">"Teach us to number our days, that we may gain a heart of wisdom."</div>
+            <div class="ref">Psalm 90:12</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Guidance and Wisdom</div>
+            <div class="verse">"For everything there is a season, and a time for every matter under heaven."</div>
+            <div class="ref">Ecclesiastes 3:1</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Guidance and Wisdom</div>
+            <div class="verse">"Where there is no guidance, a people falls, but in an abundance of counselors there is safety."</div>
+            <div class="ref">Proverbs 11:14</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Guidance and Wisdom</div>
+            <div class="verse">"All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness."</div>
+            <div class="ref">2 Timothy 3:16</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        </div><div class="page">
+        <div class="card new">
+            <div class="topic">Salvation and Grace</div>
+            <div class="verse">"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."</div>
+            <div class="ref">John 3:16</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Salvation and Grace</div>
+            <div class="verse">"For the wages of sin is death, but the gift of God is eternal life in Christ Jesus our Lord."</div>
+            <div class="ref">Romans 6:23</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Salvation and Grace</div>
+            <div class="verse">"If we confess our sins, he is faithful and just and will forgive us our sins and purify us from all unrighteousness."</div>
+            <div class="ref">1 John 1:9</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Salvation and Grace</div>
+            <div class="verse">"For all have sinned and fall short of the glory of God."</div>
+            <div class="ref">Romans 3:23</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Salvation and Grace</div>
+            <div class="verse">"Jesus answered, 'I am the way and the truth and the life. No one comes to the Father except through me.'"</div>
+            <div class="ref">John 14:6</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Salvation and Grace</div>
+            <div class="verse">"For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God."</div>
+            <div class="ref">Ephesians 2:8</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Salvation and Grace</div>
+            <div class="verse">"If you declare with your mouth, 'Jesus is Lord,' and believe in your heart that God raised him from the dead, you will be saved."</div>
+            <div class="ref">Romans 10:9</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Salvation and Grace</div>
+            <div class="verse">"Come, follow me, Jesus said, and I will send you out to fish for people."</div>
+            <div class="ref">Matthew 4:19</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Salvation and Grace</div>
+            <div class="verse">"There is therefore now no condemnation to those who are in Christ Jesus."</div>
+            <div class="ref">Romans 8:1</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Salvation and Grace</div>
+            <div class="verse">"In him was life, and that life was the light of all mankind."</div>
+            <div class="ref">John 1:4</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        </div><div class="page">
+        <div class="card old">
+            <div class="topic">God's Nature and Sovereignty</div>
+            <div class="verse">"In the beginning God created the heavens and the earth."</div>
+            <div class="ref">Genesis 1:1</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">God's Nature and Sovereignty</div>
+            <div class="verse">"I am the Alpha and the Omega, says the Lord God, who is, and who was, and who is to come, the Almighty."</div>
+            <div class="ref">Revelation 1:8</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">God's Nature and Sovereignty</div>
+            <div class="verse">"The Lord is righteous in all his ways and faithful in all he does."</div>
+            <div class="ref">Psalm 145:17</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">God's Nature and Sovereignty</div>
+            <div class="verse">"God is not human, that he should lie."</div>
+            <div class="ref">Numbers 23:19</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">God's Nature and Sovereignty</div>
+            <div class="verse">"For with God nothing will be impossible."</div>
+            <div class="ref">Luke 1:37</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">God's Nature and Sovereignty</div>
+            <div class="verse">"The Lord reigns, let the earth rejoice."</div>
+            <div class="ref">Psalm 97:1</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">God's Nature and Sovereignty</div>
+            <div class="verse">"For he spoke, and it came to be; he commanded, and it stood firm."</div>
+            <div class="ref">Psalm 33:9</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">God's Nature and Sovereignty</div>
+            <div class="verse">"I and the Father are one."</div>
+            <div class="ref">John 10:30</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">God's Nature and Sovereignty</div>
+            <div class="verse">"The Lord your God is in your midst, a mighty one who will save."</div>
+            <div class="ref">Zephaniah 3:17</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">God's Nature and Sovereignty</div>
+            <div class="verse">"Great is the Lord and greatly to be praised."</div>
+            <div class="ref">Psalm 145:3</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        </div><div class="page">
+        <div class="card new">
+            <div class="topic">Prayer and Worship</div>
+            <div class="verse">"Pray without ceasing."</div>
+            <div class="ref">1 Thessalonians 5:17</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Prayer and Worship</div>
+            <div class="verse">"Rejoice always."</div>
+            <div class="ref">1 Thessalonians 5:16</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Prayer and Worship</div>
+            <div class="verse">"Give thanks in all circumstances; for this is God's will for you in Christ Jesus."</div>
+            <div class="ref">1 Thessalonians 5:18</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Prayer and Worship</div>
+            <div class="verse">"For where two or three gather in my name, there am I with them."</div>
+            <div class="ref">Matthew 18:20</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Prayer and Worship</div>
+            <div class="verse">"I will give thanks to the Lord with my whole heart."</div>
+            <div class="ref">Psalm 9:1</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Prayer and Worship</div>
+            <div class="verse">"Let everything that has breath praise the Lord!"</div>
+            <div class="ref">Psalm 150:6</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Prayer and Worship</div>
+            <div class="verse">"Shout for joy to the Lord, all the earth."</div>
+            <div class="ref">Psalm 100:1</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Prayer and Worship</div>
+            <div class="verse">"Continue steadfastly in prayer, being watchful in it with thanksgiving."</div>
+            <div class="ref">Colossians 4:2</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Prayer and Worship</div>
+            <div class="verse">"Call to me and I will answer you and tell you great and unsearchable things you do not know."</div>
+            <div class="ref">Jeremiah 33:3</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Prayer and Worship</div>
+            <div class="verse">"The Lord is near to all who call on him, to all who call on him in truth."</div>
+            <div class="ref">Psalm 145:18</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        </div><div class="page">
+        <div class="card new">
+            <div class="topic">Holiness and Righteous Living</div>
+            <div class="verse">"Be holy, because I am holy."</div>
+            <div class="ref">1 Peter 1:16</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Holiness and Righteous Living</div>
+            <div class="verse">"Do not quench the Spirit."</div>
+            <div class="ref">1 Thessalonians 5:19</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Holiness and Righteous Living</div>
+            <div class="verse">"Abstain from every form of evil."</div>
+            <div class="ref">1 Thessalonians 5:22</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Holiness and Righteous Living</div>
+            <div class="verse">"Do not despise prophecies, but test everything."</div>
+            <div class="ref">1 Thessalonians 5:20-21</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Holiness and Righteous Living</div>
+            <div class="verse">"Submit yourselves, then, to God. Resist the devil, and he will flee from you."</div>
+            <div class="ref">James 4:7</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Holiness and Righteous Living</div>
+            <div class="verse">"You shall not steal."</div>
+            <div class="ref">Exodus 20:15</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card old">
+            <div class="topic">Holiness and Righteous Living</div>
+            <div class="verse">"You shall not murder."</div>
+            <div class="ref">Exodus 20:13</div>
+            <div class="testament-label">Old Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Holiness and Righteous Living</div>
+            <div class="verse">"In fact, this is love for God: to keep his commands. And his commands are not burdensome."</div>
+            <div class="ref">1 John 5:3</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Holiness and Righteous Living</div>
+            <div class="verse">"But just as he who called you is holy, so be holy in all you do."</div>
+            <div class="ref">1 Peter 1:15</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Holiness and Righteous Living</div>
+            <div class="verse">"Therefore, prepare your minds for action, be sober-minded, set your hope fully on the grace that will be brought to you at the revelation of Jesus Christ."</div>
+            <div class="ref">1 Peter 1:13</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        </div><div class="page">
+        <div class="card new">
+            <div class="topic">Transformation and Growth</div>
+            <div class="verse">"Therefore, if anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come."</div>
+            <div class="ref">2 Corinthians 5:17</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Transformation and Growth</div>
+            <div class="verse">"I have been crucified with Christ and I no longer live, but Christ lives in me."</div>
+            <div class="ref">Galatians 2:20</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Transformation and Growth</div>
+            <div class="verse">"Forgetting what is behind and straining toward what is ahead, I press on toward the goal to win the prize for which God has called me heavenward in Christ Jesus."</div>
+            <div class="ref">Philippians 3:13-14</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Transformation and Growth</div>
+            <div class="verse">"He who began a good work in you will carry it on to completion until the day of Christ Jesus."</div>
+            <div class="ref">Philippians 1:6</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Transformation and Growth</div>
+            <div class="verse">"Finally, be strong in the Lord and in his mighty power."</div>
+            <div class="ref">Ephesians 6:10</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Transformation and Growth</div>
+            <div class="verse">"For our light and momentary troubles are achieving for us an eternal glory that far outweighs them all."</div>
+            <div class="ref">2 Corinthians 4:17</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Transformation and Growth</div>
+            <div class="verse">"Do not be overcome by evil, but overcome evil with good."</div>
+            <div class="ref">Romans 12:21</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Transformation and Growth</div>
+            <div class="verse">"Make every effort to live in peace with everyone and to be holy; without holiness no one will see the Lord."</div>
+            <div class="ref">Hebrews 12:14</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Transformation and Growth</div>
+            <div class="verse">"And we know that in all things God works for the good of those who love him, who have been called according to his purpose."</div>
+            <div class="ref">Romans 8:28</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+        <div class="card new">
+            <div class="topic">Transformation and Growth</div>
+            <div class="verse">"Therefore encourage one another and build each other up, just as in fact you are doing."</div>
+            <div class="ref">1 Thessalonians 5:11</div>
+            <div class="testament-label">New Testament</div>
+        </div>
+        
+    </div>
+</body>
+</html>
