@@ -187,6 +187,13 @@ main {
     min-height: 1.2rem;
 }
 
+.form-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: -0.5rem;
+}
+
 #notes-area, #submitter-email {
     width: 100%;
     padding: 1rem;

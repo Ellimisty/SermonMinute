@@ -142,6 +142,18 @@ document.getElementById('main-card').addEventListener('click', toggleFlip);
 document.getElementById('timer-btn').addEventListener('click', toggleTimer);
 document.getElementById('reset-btn').addEventListener('click', resetDeck);
 
+function downloadBackup(content, filename) {
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
 // Form Handling
 document.getElementById('notes-form').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -194,16 +206,25 @@ document.getElementById('notes-form').addEventListener('submit', async function(
             console.log("Response status:", response.status);
 
             if (response.ok) {
-                status.textContent = "Notes sent successfully!";
+                status.textContent = "Notes sent! Backup downloaded.";
                 status.style.color = "#4CAF50";
+                
+                // Trigger Backup Download
+                const date = new Date().toLocaleDateString().replace(/\//g, '-');
+                const filename = `SermonNotes_${date}.txt`;
+                const verse = document.getElementById('hidden-verse').value;
+                const ref = document.getElementById('hidden-reference').value;
+                const email = document.getElementById('submitter-email').value;
+                const backupContent = `Sermon Notes Record\nDate: ${new Date().toLocaleString()}\nFrom: ${email}\n\nVerse: ${verse} (${ref})\n\nNotes:\n${notes}`;
+                
+                downloadBackup(backupContent, filename);
+
                 this.reset();
                 // Reset hidden fields and email field too (reset() does email, but hidden fields manually)
                 document.getElementById('hidden-verse').value = "";
                 document.getElementById('hidden-reference').value = "";
                 
                 // Copy to clipboard as backup too
-                const emailRaw = document.getElementById('submitter-email').value;
-                const fullContentForClipboard = `From: ${emailRaw}\nVerse: ${document.getElementById('hidden-verse').value} (${document.getElementById('hidden-reference').value})\n\nNotes:\n${notes}`;
                 try { await navigator.clipboard.writeText(notes); } catch(e) {}
             } else {
                 const data = await response.json();
