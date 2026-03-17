@@ -140,16 +140,19 @@ document.getElementById('reset-btn').addEventListener('click', resetDeck);
 
 // Form Handling
 document.getElementById('notes-form').addEventListener('submit', async function(e) {
-    const isTauri = !!window.__TAURI_INTERNALS__;
+    e.preventDefault();
     
-    if (isTauri) {
-        e.preventDefault();
-        const notes = document.getElementById('notes-area').value;
-        if (!notes.trim()) {
-            alert("Please type some notes before submitting.");
-            return;
-        }
+    const isTauri = !!window.__TAURI_INTERNALS__;
+    const notes = document.getElementById('notes-area').value;
+    const button = document.getElementById('submit-notes-btn');
+    const status = document.getElementById('form-status');
 
+    if (!notes.trim()) {
+        alert("Please type some notes before submitting.");
+        return;
+    }
+
+    if (isTauri) {
         try {
             await navigator.clipboard.writeText(notes);
             alert("Desktop version: Your notes have been copied to the clipboard!\n\nYou can now paste them into an email to: 3minute@sermonminute.com");
@@ -158,14 +161,43 @@ document.getElementById('notes-form').addEventListener('submit', async function(
             alert("Desktop version: Could not copy to clipboard manually. Please copy your notes manually and email them to: 3minute@sermonminute.com");
         }
     } else {
-        // In the web version on Cloudflare, we use the mailto: action by default
-        // but we can also copy to clipboard as a backup to make it easier for the user
-        const notes = document.getElementById('notes-area').value;
+        // Web version: AJAX submission to Formspree
+        button.disabled = true;
+        button.textContent = "Sending...";
+        status.textContent = "";
+
+        const formData = new FormData(this);
+
         try {
-            await navigator.clipboard.writeText(notes);
-            console.log("Notes copied to clipboard as backup");
-        } catch (err) {
-            // silent fail for copy backup in web
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                status.textContent = "Notes sent successfully!";
+                status.style.color = "#4CAF50";
+                this.reset();
+                // Copy to clipboard as backup too
+                try { await navigator.clipboard.writeText(notes); } catch(e) {}
+            } else {
+                const data = await response.json();
+                if (data.errors) {
+                    status.textContent = data.errors.map(error => error.message).join(", ");
+                } else {
+                    status.textContent = "Oops! There was a problem submitting your form.";
+                }
+                status.style.color = "#d9534f";
+            }
+        } catch (error) {
+            status.textContent = "Oops! Could not connect to the server.";
+            status.style.color = "#d9534f";
+        } finally {
+            button.disabled = false;
+            button.textContent = "Submit Notes";
         }
     }
 });
