@@ -21,63 +21,69 @@
             </div>
         </header>
 
-        <main>
-            <div id="card-deck-container">
-                <div id="card-deck">
-                    <!-- Cards will be injected here -->
-                    <div id="active-card" class="card-container">
-                        <div class="card" id="main-card">
-                            <div class="card-face card-front">
-                                <span class="topic-label" id="card-topic-front">Topic</span>
-                                <p class="verse-text" id="card-verse">Pull a card to begin your sermon.</p>
-                                <p class="verse-reference" id="card-reference"></p>
-                                <div class="card-hint">Click to flip</div>
-                            </div>
-                            <div class="card-face card-back">
-                                <h3>Sermon Prompts</h3>
-                                <ul id="card-prompts">
-                                    <li>Prompt 1</li>
-                                    <li>Prompt 2</li>
-                                    <li>Prompt 3</li>
-                                </ul>
-                                <div class="card-hint">Click to flip back</div>
+        <div class="app-layout">
+            <div class="main-column">
+                <main>
+                    <div id="card-deck-container">
+                        <div id="card-deck">
+                            <!-- Cards will be injected here -->
+                            <div id="active-card" class="card-container">
+                                <div class="card" id="main-card">
+                                    <div class="card-face card-front">
+                                        <span class="topic-label" id="card-topic-front">Topic</span>
+                                        <p class="verse-text" id="card-verse">Pull a card to begin your sermon.</p>
+                                        <p class="verse-reference" id="card-reference"></p>
+                                        <div class="card-hint">Click to flip</div>
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <h3>Sermon Prompts</h3>
+                                        <ul id="card-prompts">
+                                            <li>Prompt 1</li>
+                                            <li>Prompt 2</li>
+                                            <li>Prompt 3</li>
+                                        </ul>
+                                        <div class="card-hint">Click to flip back</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <div id="controls">
+                        <button id="draw-btn" class="primary-btn">Draw Card</button>
+                        <button id="timer-btn" class="secondary-btn">Start Timer</button>
+                        <button id="reset-btn" class="text-btn">Reset Deck</button>
+                    </div>
+                </main>
+            </div>
+
+            <aside class="side-column">
+                <div id="rules-section">
+                    <div id="rules-toggle">
+                        <h2>How to Play</h2>
+                        <span class="toggle-icon" id="toggle-icon">▼</span>
+                    </div>
+                    <div id="rules-content" class="visible">
+                        <ol>
+                            <li><strong>Draw a card</strong> — Click the "Draw Card" button to reveal a Bible verse.</li>
+                            <li><strong>Read the verse</strong> — Take a moment to read and reflect on the scripture shown.</li>
+                            <li><strong>Start the timer</strong> — When you're ready, hit "Start Timer" to begin your 3-minute countdown.</li>
+                            <li><strong>Preach!</strong> — Deliver a short sermon inspired by the verse. Speak from the heart!</li>
+                            <li><strong>Need help?</strong> — Click the card to flip it over and see a few prompts to guide your sermon. These are optional!</li>
+                            <li><strong>Pass the deck</strong> — When you're done, the next player draws a card and takes their turn.</li>
+                        </ol>
+                    </div>
                 </div>
-            </div>
 
-            <div id="controls">
-                <button id="draw-btn" class="primary-btn">Draw Card</button>
-                <button id="timer-btn" class="secondary-btn">Start Timer</button>
-                <button id="reset-btn" class="text-btn">Reset Deck</button>
-            </div>
-        </main>
-
-        <div id="rules-section">
-            <div id="rules-toggle">
-                <h2>How to Play</h2>
-                <span class="toggle-icon" id="toggle-icon">▼</span>
-            </div>
-            <div id="rules-content" class="visible">
-                <ol>
-                    <li><strong>Draw a card</strong> — Click the "Draw Card" button to reveal a Bible verse.</li>
-                    <li><strong>Read the verse</strong> — Take a moment to read and reflect on the scripture shown.</li>
-                    <li><strong>Start the timer</strong> — When you're ready, hit "Start Timer" to begin your 3-minute countdown.</li>
-                    <li><strong>Preach!</strong> — Deliver a short sermon inspired by the verse. Speak from the heart!</li>
-                    <li><strong>Need help?</strong> — Click the card to flip it over and see a few prompts to guide your sermon. These are optional!</li>
-                    <li><strong>Pass the deck</strong> — When you're done, the next player draws a card and takes their turn.</li>
-                </ol>
-            </div>
+                <section id="notes-section">
+                    <h2>Sermon Notes</h2>
+                    <form action="mailto:3minute@sermonminute.com" method="POST" enctype="text/plain" id="notes-form">
+                        <textarea name="notes" id="notes-area" placeholder="Type your sermon notes here..."></textarea>
+                        <button type="submit" id="submit-notes-btn" class="primary-btn">Submit Notes</button>
+                    </form>
+                </section>
+            </aside>
         </div>
-
-        <section id="notes-section">
-            <h2>Sermon Notes</h2>
-            <form action="mailto:3minute@sermonminute.com" method="POST" enctype="text/plain" id="notes-form">
-                <textarea name="notes" id="notes-area" placeholder="Type your sermon notes here..."></textarea>
-                <button type="submit" id="submit-notes-btn" class="primary-btn">Submit Notes</button>
-            </form>
-        </section>
 
         <footer>
             <p id="deck-count">Cards remaining: 100</p>
