@@ -58,12 +58,20 @@
             </div>
 
             <aside class="side-column">
+                <section id="notes-section">
+                    <h2>Sermon Notes</h2>
+                    <form action="mailto:3minute@sermonminute.com" method="POST" enctype="text/plain" id="notes-form">
+                        <textarea name="notes" id="notes-area" placeholder="Type your sermon notes here..."></textarea>
+                        <button type="submit" id="submit-notes-btn" class="primary-btn">Submit Notes</button>
+                    </form>
+                </section>
+
                 <div id="rules-section">
                     <div id="rules-toggle">
                         <h2>How to Play</h2>
                         <span class="toggle-icon" id="toggle-icon">▼</span>
                     </div>
-                    <div id="rules-content" class="visible">
+                    <div id="rules-content">
                         <ol>
                             <li><strong>Draw a card</strong> — Click the "Draw Card" button to reveal a Bible verse.</li>
                             <li><strong>Read the verse</strong> — Take a moment to read and reflect on the scripture shown.</li>
@@ -74,14 +82,6 @@
                         </ol>
                     </div>
                 </div>
-
-                <section id="notes-section">
-                    <h2>Sermon Notes</h2>
-                    <form action="mailto:3minute@sermonminute.com" method="POST" enctype="text/plain" id="notes-form">
-                        <textarea name="notes" id="notes-area" placeholder="Type your sermon notes here..."></textarea>
-                        <button type="submit" id="submit-notes-btn" class="primary-btn">Submit Notes</button>
-                    </form>
-                </section>
             </aside>
         </div>
 
