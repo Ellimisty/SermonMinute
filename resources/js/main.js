@@ -57,6 +57,10 @@ function drawCard() {
         document.getElementById('card-reference').textContent = currentCard.reference;
         document.getElementById('card-topic-front').textContent = currentCard.topic;
 
+        // Populate hidden fields for form submission
+        document.getElementById('hidden-verse').value = currentCard.verse;
+        document.getElementById('hidden-reference').value = currentCard.reference;
+
         const promptsList = document.getElementById('card-prompts');
         promptsList.innerHTML = '';
         currentCard.prompts.forEach(p => {
@@ -153,12 +157,16 @@ document.getElementById('notes-form').addEventListener('submit', async function(
     }
 
     if (isTauri) {
+        const verse = document.getElementById('hidden-verse').value;
+        const ref = document.getElementById('hidden-reference').value;
+        const fullContent = `Verse: ${verse} (${ref})\n\nNotes:\n${notes}`;
+
         try {
-            await navigator.clipboard.writeText(notes);
-            alert("Desktop version: Your notes have been copied to the clipboard!\n\nYou can now paste them into an email to: 3minute@sermonminute.com");
+            await navigator.clipboard.writeText(fullContent);
+            alert("Desktop version: Your verse and notes have been copied to the clipboard!\n\nYou can now paste them into an email to: 3minute@sermonminute.com");
         } catch (err) {
             console.error('Failed to copy: ', err);
-            alert("Desktop version: Could not copy to clipboard manually. Please copy your notes manually and email them to: 3minute@sermonminute.com");
+            alert("Desktop version: Could not copy to clipboard manually. Please copy everything manually and email it to: 3minute@sermonminute.com");
         }
     } else {
         // Web version: AJAX submission to Formspree

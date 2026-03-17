@@ -61,6 +61,8 @@
                 <section id="notes-section">
                     <h2>Sermon Notes</h2>
                     <form action="https://formspree.io/f/xnjgojjr" method="POST" id="notes-form">
+                        <input type="hidden" name="verse" id="hidden-verse">
+                        <input type="hidden" name="reference" id="hidden-reference">
                         <textarea name="notes" id="notes-area" placeholder="Type your sermon notes here..."></textarea>
                         <div id="form-status"></div>
                         <button type="submit" id="submit-notes-btn" class="primary-btn">Submit Notes</button>
