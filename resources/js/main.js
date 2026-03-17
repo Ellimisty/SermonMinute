@@ -170,11 +170,17 @@ document.getElementById('notes-form').addEventListener('submit', async function(
         }
     } else {
         // Web version: AJAX submission to Formspree
+        console.log("Submitting to:", this.action);
         button.disabled = true;
         button.textContent = "Sending...";
-        status.textContent = "";
+        status.textContent = "Connecting to server...";
+        status.style.color = "#8a7f86";
 
         const formData = new FormData(this);
+        console.log("Form data entries:");
+        for (let [key, value] of formData.entries()) {
+            console.log(key, ":", value);
+        }
 
         try {
             const response = await fetch(this.action, {
@@ -185,23 +191,30 @@ document.getElementById('notes-form').addEventListener('submit', async function(
                 }
             });
 
+            console.log("Response status:", response.status);
+
             if (response.ok) {
                 status.textContent = "Notes sent successfully!";
                 status.style.color = "#4CAF50";
                 this.reset();
+                // Reset hidden fields too
+                document.getElementById('hidden-verse').value = "";
+                document.getElementById('hidden-reference').value = "";
                 // Copy to clipboard as backup too
                 try { await navigator.clipboard.writeText(notes); } catch(e) {}
             } else {
                 const data = await response.json();
+                console.error("Formspree error data:", data);
                 if (data.errors) {
-                    status.textContent = data.errors.map(error => error.message).join(", ");
+                    status.textContent = "Error: " + data.errors.map(error => error.message).join(", ");
                 } else {
-                    status.textContent = "Oops! There was a problem submitting your form.";
+                    status.textContent = "Oops! Submission failed (Status " + response.status + ")";
                 }
                 status.style.color = "#d9534f";
             }
         } catch (error) {
-            status.textContent = "Oops! Could not connect to the server.";
+            console.error("Fetch error:", error);
+            status.textContent = "Connection error. If you have an ad-blocker, please try disabling it for this site.";
             status.style.color = "#d9534f";
         } finally {
             button.disabled = false;
