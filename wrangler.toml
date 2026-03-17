@@ -1,6 +1,5 @@
 #:schema https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json
 name = "sermonminute"
-main = "resources/index.html" # Cloudflare will realize this is a static site
 compatibility_date = "2024-04-03"
 
 [assets]
