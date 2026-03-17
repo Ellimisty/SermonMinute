@@ -90,6 +90,15 @@ def generate_html(cards):
             font-style: italic;
             color: #333;
         }
+        .prompts {
+            font-size: 8pt;
+            text-align: left;
+            padding-left: 15pt;
+            color: #444;
+        }
+        .prompts li {
+            margin-bottom: 3pt;
+        }
         .ref {
             font-size: 8pt;
             font-weight: bold;
@@ -129,36 +138,76 @@ def generate_html(cards):
 </head>
 <body>
     <div class="controls no-print">
-        <h1>Print Preview</h1>
-        <p>This layout is set for standard Business Card templates (3.5" x 2", 10 per page).</p>
+        <h1>Print Preview (Double-Sided)</h1>
+        <p>This layout generates a <b>Fronts</b> page followed by a <b>Backs</b> page.</p>
+        <p>When printing double-sided, the prompts will line up on the back of the correct verse.</p>
         <button onclick="window.print()">Print Cards</button>
     </div>
-    <div class="page">
-        {card_content}
-    </div>
+    {content}
 </body>
 </html>
 """
     
-    card_html = ""
-    for i, card in enumerate(cards):
-        testament = get_testament(card["reference"])
-        cls = testament.lower()
+    pages_html = ""
+    # Process cards in chunks of 10
+    for i in range(0, len(cards), 10):
+        chunk = cards[i:i+10]
         
-        # Start a new page every 10 cards
-        if i > 0 and i % 10 == 0:
-            card_html += '</div><div class="page">'
-            
-        card_html += f"""
-        <div class="card {cls}">
-            <div class="topic">{card["topic"]}</div>
-            <div class="verse">"{card["verse"]}"</div>
-            <div class="ref">{card["reference"]}</div>
-            <div class="testament-label">{testament} Testament</div>
-        </div>
-        """
+        # --- FRONTS PAGE ---
+        pages_html += '<div class="page">'
+        for card in chunk:
+            testament = get_testament(card["reference"])
+            cls = testament.lower()
+            pages_html += f"""
+            <div class="card {cls}">
+                <div class="topic">{card["topic"]}</div>
+                <div class="verse">"{card["verse"]}"</div>
+                <div class="ref">{card["reference"]}</div>
+                <div class="testament-label">{testament} Testament</div>
+            </div>
+            """
+        # Fill empty slots if last page is incomplete
+        for _ in range(10 - len(chunk)):
+            pages_html += '<div class="card"></div>'
+        pages_html += '</div>'
         
-    return html_template.replace("{card_content}", card_html)
+        # --- BACKS PAGE (Horizontally Flipped) ---
+        # For a 2-column grid [L][R], the back side must flip columns [R][L] 
+        # so they align when the sheet is flipped.
+        pages_html += '<div class="page">'
+        
+        # Re-order chunk for backing: [1,2,3,4...] -> [2,1,4,3...]
+        back_chunk = []
+        for j in range(0, len(chunk), 2):
+            row = chunk[j:j+2]
+            if len(row) == 2:
+                back_chunk.extend([row[1], row[0]])
+            else:
+                back_chunk.extend([None, row[0]]) # Empty slot on left if single card row
+        
+        for card in back_chunk:
+            if card is None:
+                pages_html += '<div class="card"></div>'
+                continue
+                
+            testament = get_testament(card["reference"])
+            cls = testament.lower()
+            prompts_list = "".join([f"<li>{p}</li>" for p in card["prompts"]])
+            pages_html += f"""
+            <div class="card {cls}">
+                <div class="topic">Reflection Prompts</div>
+                <ul class="prompts">
+                    {prompts_list}
+                </ul>
+                <div class="testament-label">{testament} Testament</div>
+            </div>
+            """
+        # Fill empty slots if last page is incomplete
+        for _ in range(10 - len(back_chunk)):
+            pages_html += '<div class="card"></div>'
+        pages_html += '</div>'
+        
+    return html_template.replace("{content}", pages_html)
 
 def main():
     json_path = "resources/data/cards.json"
