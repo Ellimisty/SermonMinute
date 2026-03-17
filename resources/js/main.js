@@ -197,10 +197,13 @@ document.getElementById('notes-form').addEventListener('submit', async function(
                 status.textContent = "Notes sent successfully!";
                 status.style.color = "#4CAF50";
                 this.reset();
-                // Reset hidden fields too
+                // Reset hidden fields and email field too (reset() does email, but hidden fields manually)
                 document.getElementById('hidden-verse').value = "";
                 document.getElementById('hidden-reference').value = "";
+                
                 // Copy to clipboard as backup too
+                const emailRaw = document.getElementById('submitter-email').value;
+                const fullContentForClipboard = `From: ${emailRaw}\nVerse: ${document.getElementById('hidden-verse').value} (${document.getElementById('hidden-reference').value})\n\nNotes:\n${notes}`;
                 try { await navigator.clipboard.writeText(notes); } catch(e) {}
             } else {
                 const data = await response.json();

@@ -187,9 +187,8 @@ main {
     min-height: 1.2rem;
 }
 
-#notes-area {
+#notes-area, #submitter-email {
     width: 100%;
-    min-height: 150px;
     padding: 1rem;
     background: var(--bg-accent);
     border: 1px solid var(--card-border);
@@ -197,11 +196,15 @@ main {
     color: var(--text-main);
     font-family: 'Outfit', sans-serif;
     font-size: 1rem;
-    resize: vertical;
     transition: all 0.3s ease;
 }
 
-#notes-area:focus {
+#notes-area {
+    min-height: 150px;
+    resize: vertical;
+}
+
+#notes-area:focus, #submitter-email:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
