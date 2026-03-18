@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermon App Logo Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #faf7f2;
+            --primary-color: #6b4c9a;
+            --text-main: #3a3238;
+            --card-bg: #ffffff;
+            --shadow-soft: rgba(107, 76, 154, 0.08);
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+        .gallery-section {
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 4rem;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+        .logo-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 12px 40px var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        .logo-card:hover {
+            transform: translateY(-5px);
+        }
+        .logo-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        .logo-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .logo-desc {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sermon App Logo Showcase</h1>
+
+    <div class="gallery-section">
+        <div class="section-title">3 Minute Sermon</div>
+        <div class="grid">
+            <div class="logo-card">
+                <img src="sermon_logo_1_1773797152342.png" alt="3 Minute Sermon Concept 1">
+                <div class="logo-label">Concept 1: Classic Purple & Gold</div>
+                <div class="logo-desc">Minimalist timer with stylized open Bible.</div>
+            </div>
+            <div class="logo-card">
+                <img src="sermon_logo_2_1773797235978.png" alt="3 Minute Sermon Concept 2">
+                <div class="logo-label">Concept 2: Hourglass Cross</div>
+                <div class="logo-desc">Vibrant indigo and orange with cross silhouette.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gallery-section">
+        <div class="section-title">Sermon Minute</div>
+        <div class="grid">
+            <div class="logo-card">
+                <img src="sermon_minute_logo_1_1773797695035.png" alt="Sermon Minute Concept 1">
+                <div class="logo-label">Concept 1: Modern Minimalist</div>
+                <div class="logo-desc">Sleek typography with integrated timer.</div>
+            </div>
+            <div class="logo-card">
+                <img src="sermon_minute_logo_2_1773797729413.png" alt="Sermon Minute Concept 2">
+                <div class="logo-label">Concept 2: Dynamic Hourglass</div>
+                <div class="logo-desc">Sunrise gradients with elegant cross icon.</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
