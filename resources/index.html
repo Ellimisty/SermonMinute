@@ -15,10 +15,17 @@
             <h1>3 Minute Sermon</h1>
                 <div id="mode-tabs">
                     <button class="tab-btn active" data-mode="classic">Classic (3:00)</button>
+                    <button class="tab-btn" data-mode="sprint">Sprint (1:00)</button>
+                    <button class="tab-btn" data-mode="flash">Flash (0:30)</button>
                     <button class="tab-btn" data-mode="challenge">Challenge (5:30)</button>
+                    <button class="tab-btn" data-mode="kids">Kids (Free Play)</button>
                 </div>
 
                 <div id="phase-label">PREP PHASE</div>
+                
+                <div id="buzzer-container" class="hidden">
+                    <button id="buzzer-btn" class="buzzer-btn">🚨 BUZZER</button>
+                </div>
 
                 <div id="timer-container">
                     <div id="timer">03:00</div>
@@ -69,6 +76,7 @@
                     <div id="controls">
                         <button id="draw-btn" class="primary-btn">Draw Card</button>
                         <button id="timer-btn" class="secondary-btn">Start Timer</button>
+                        <a href="printable.html" target="_blank" class="secondary-btn print-link-btn">Print Cards</a>
                         <button id="reset-btn" class="text-btn">Reset Deck</button>
                     </div>
                 </main>

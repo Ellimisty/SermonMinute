@@ -5,9 +5,10 @@ let currentCard = null;
 let timerInterval = null;
 let timeLeft = 180;
 let isTimerRunning = false;
-let gameMode = 'classic'; // 'classic' or 'challenge'
+let gameMode = 'classic'; // 'classic', 'sprint', 'flash', 'challenge', 'kids'
 let currentPhase = 'prep'; // 'prep' or 'preach'
 let drawnCards = [];
+let buzzerCount = 0;
 
 async function loadCards() {
     try {
@@ -77,6 +78,11 @@ function drawCard() {
     setTimeout(() => {
         // Populate Card 1
         const c1 = drawnCards[0];
+        const card1El = document.getElementById('main-card-1');
+        card1El.classList.remove('ot', 'nt');
+        if (c1.testament === 'OT') card1El.classList.add('ot');
+        if (c1.testament === 'NT') card1El.classList.add('nt');
+
         document.getElementById('card-verse-1').textContent = `"${c1.verse}"`;
         document.getElementById('card-reference-1').textContent = c1.reference;
         document.getElementById('card-topic-front-1').textContent = c1.topic;
@@ -95,6 +101,11 @@ function drawCard() {
 
         if (gameMode === 'challenge') {
             const c2 = drawnCards[1];
+            const card2El = document.getElementById('main-card-2');
+            card2El.classList.remove('ot', 'nt');
+            if (c2.testament === 'OT') card2El.classList.add('ot');
+            if (c2.testament === 'NT') card2El.classList.add('nt');
+
             document.getElementById('card-verse-2').textContent = `"${c2.verse}"`;
             document.getElementById('card-reference-2').textContent = c2.reference;
             document.getElementById('card-topic-front-2').textContent = c2.topic;
@@ -163,14 +174,24 @@ function resetTimer() {
     pauseTimer();
     if (gameMode === 'classic') {
         timeLeft = 180;
-        document.getElementById('phase-label').classList.remove('visible');
-    } else {
+    } else if (gameMode === 'sprint') {
+        timeLeft = 60;
+    } else if (gameMode === 'flash') {
+        timeLeft = 30;
+    } else if (gameMode === 'kids') {
+        timeLeft = 0;
+    } else if (gameMode === 'challenge') {
         timeLeft = 330; // 5:30
         currentPhase = 'prep';
         const label = document.getElementById('phase-label');
         label.textContent = "PREP PHASE";
         label.classList.add('visible');
     }
+
+    if (gameMode !== 'challenge') {
+        document.getElementById('phase-label').classList.remove('visible');
+    }
+
     updateTimerDisplay();
     document.getElementById('timer-btn').textContent = "Start Timer";
 }
@@ -190,9 +211,42 @@ function updateTimerDisplay() {
         timerEl.classList.add('warning');
     }
 
-    const progressTotal = gameMode === 'classic' ? 180 : 330;
-    const progress = (timeLeft / progressTotal) * 100;
+    const progressTotal = 
+        gameMode === 'classic' ? 180 : 
+        gameMode === 'sprint' ? 60 :
+        gameMode === 'flash' ? 30 :
+        gameMode === 'challenge' ? 330 : 1;
+    
+    const progress = gameMode === 'kids' ? 100 : (timeLeft / progressTotal) * 100;
     document.getElementById('progress-bar').style.width = `${progress}%`;
+}
+
+function playBuzzer() {
+    if (gameMode !== 'kids') return;
+    
+    // Simple Web Audio API Oscillator for a buzzer sound
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.type = 'sawtooth';
+    oscillator.frequency.setValueAtTime(150, audioCtx.currentTime); 
+    oscillator.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.5);
+
+    gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.5);
+
+    // Visual feedback
+    document.body.style.backgroundColor = '#ff4b2b';
+    setTimeout(() => {
+        document.body.style.backgroundColor = 'var(--bg-color)';
+    }, 200);
 }
 
 // Event Listeners
@@ -201,6 +255,7 @@ document.getElementById('main-card-1').addEventListener('click', () => toggleFli
 document.getElementById('main-card-2').addEventListener('click', () => toggleFlip(2));
 document.getElementById('timer-btn').addEventListener('click', toggleTimer);
 document.getElementById('reset-btn').addEventListener('click', resetDeck);
+document.getElementById('buzzer-btn').addEventListener('click', playBuzzer);
 
 // Tab switching
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -216,10 +271,21 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         
         // Update UI for mode
         const card2 = document.getElementById('active-card-2');
+        const buzzer = document.getElementById('buzzer-container');
+        const timerContainer = document.getElementById('timer-container');
+
         if (gameMode === 'challenge') {
             card2.classList.remove('hidden');
         } else {
             card2.classList.add('hidden');
+        }
+
+        if (gameMode === 'kids') {
+            buzzer.classList.remove('hidden');
+            timerContainer.classList.add('hidden');
+        } else {
+            buzzer.classList.add('hidden');
+            timerContainer.classList.remove('hidden');
         }
         
         resetDeck();
